@@ -20,7 +20,7 @@ public class AIController extends Controller {
 	
 	public AIController(Car car, ISensing sensor, IPlanning planner, IPerception classifier) {
 		super(car);
-		this.sensor = sensor;
+		// Modify this as you like to instantiate your interface
 	}
 
 	@Override

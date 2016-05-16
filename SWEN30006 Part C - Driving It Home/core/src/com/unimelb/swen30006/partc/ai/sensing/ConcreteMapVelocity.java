@@ -1,32 +1,31 @@
 package com.unimelb.swen30006.partc.ai.sensing;
 
 import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.math.Vector2;
-import com.unimelb.swen30006.partc.core.objects.Car;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
 
-public class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
-	
-	private Vector2 refVelocity;
+class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	
 	private Vector2[][] velocityMap;
 	
-	public ConcreteMapVelocity(WorldObject refObject){
-		// Check if the object is a car and get its velocity
-		if(refObject.getClass().equals(Car.class)){
-			Car car = (Car)refObject;
-			refVelocity = car.getVelocity();					
-		}
-		else {
-			refVelocity = new Vector2(0,0);
-		}
-	}
-
+	// Previous positions of the visible world objects
+	private HashMap<WorldObject, Double> previousPositions;
+	
 	@Override
 	public Vector2[][] generateVelocityMap(Double refPos, int visibility,WorldObject[] objectArray) {
 		// TODO Auto-generated method stub
+		return velocityMap;
+	}
+	
+	private Vector2 calculateAbsVelocity(float delta, WorldObject object,Double pos){
 		return null;
+		
+	}
+	private void processVelocity(ArrayList<Integer> blocks, Vector2 refVelocity, Vector2 velocity){
+		
 	}
 
 }

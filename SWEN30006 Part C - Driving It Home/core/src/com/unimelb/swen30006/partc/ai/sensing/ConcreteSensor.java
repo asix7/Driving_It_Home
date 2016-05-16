@@ -29,10 +29,10 @@ public class ConcreteSensor implements ISensing {
 	 * @param world a reference to the world
 	 * @param refObject the WorldObject that it is controlled by AI 
 	 * **/
-	public ConcreteSensor(World world, WorldObject refObject){
+	public ConcreteSensor(World world){
 		
 		this.world = world;
-		velocityStrategy = new ConcreteMapVelocity(refObject);
+		velocityStrategy = new ConcreteMapVelocity();
 		spaceStrategy = new ConcreteMapSpace();
 		colourStrategy = new ConcreteMapColour();		
 	}
