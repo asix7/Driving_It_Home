@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
 
 class ConcreteMapSpace extends MapGenerator implements IMapSpace {
-
+	// Map
 	private boolean[][] spaceMap;
 
 	@Override
