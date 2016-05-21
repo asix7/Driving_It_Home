@@ -27,9 +27,19 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	 * @param width the width of the object
 	 * @return the indexes of an array of the blocks that the road belongs to
 	 * */
-	private ArrayList<Integer> getRoadBlocks(Double refPos, int visibility, Double startPos, Double endPos, float width){
-		return null;
+	private ArrayList<Integer[]> getRoadBlocks(Double refPos, int visibility, Double startPos, Double endPos, float width){
+		float height = (float) Double.distance(endPos.x, endPos.y, startPos.x, startPos.y);
+		Double center = null; 
+		center.x = (startPos.x + endPos.x)/2.0;
+		center.y = (startPos.y + endPos.y)/2.0;
+		
+		if(startPos.x - endPos.x != 0.0){			
+			return getObjectBlocks(refPos, visibility, center, height, width);
+		} else {
+			return getObjectBlocks(refPos, visibility, center, width, height);
+		}		
 	}
+	
 	private void processColour(ArrayList<Integer> blocks, Color colour){
 		
 	}

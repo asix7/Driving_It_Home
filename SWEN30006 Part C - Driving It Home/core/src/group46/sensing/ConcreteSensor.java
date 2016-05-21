@@ -19,7 +19,7 @@ public class ConcreteSensor implements ISensing {
 	private boolean[][] spaceMap;
 	private Color[][] colourMap;
 	
-	//Map generators strategies
+	// Map generators strategies
 	private IMapVelocity velocityStrategy;
 	private IMapSpace spaceStrategy;
 	private IMapColour colourStrategy;
@@ -51,6 +51,7 @@ public class ConcreteSensor implements ISensing {
 		this.colourStrategy = colourStrategy;		
 	}
 	
+	@Override
 	public boolean update(Double pos, float delta, int visibility) {		
 		try{
 			// Gets the object from world

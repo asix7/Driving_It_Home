@@ -15,7 +15,24 @@ class MapGenerator {
 	 * @param height the height of the object
 	 * @return the indexes of an array of the blocks that the object belongs to
 	 * */
-	private ArrayList<Integer[]> getObjectBlocks(Double refPos, int visibility, Double pos, float width, float height){
-		return null;		 
+	protected ArrayList<Integer[]> getObjectBlocks(Double refPos, int visibility, Double pos, float width, float height){
+		ArrayList<Integer[]> indexes = new ArrayList<Integer[]>();
+		float abs_x = (float) (visibility/2.0 + (pos.x - refPos.x));
+		float abs_y = (float) (visibility/2.0 + (pos.y - refPos.y));
+		
+		int top = Math.max(0, (int) Math.floor(abs_y - height/2.0));
+		int bot = Math.min(visibility - 1, (int) Math.floor(abs_y - height/2.0));
+		int left = Math.max(0, (int) Math.floor(abs_x - width/2.0));
+		int right = Math.min(visibility - 1, (int) Math.floor(abs_x - width/2.0));
+		
+		// Assuming the object is shaped as a rectangle
+		for(int i = top; i < bot; i++){
+			for(int j = left; j < right; j++){
+				Integer[] block = {i,j};
+				indexes.add(block);
+			}
+		}
+		
+		return indexes;	 
 	}
 }
