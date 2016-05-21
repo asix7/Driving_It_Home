@@ -15,8 +15,28 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	private HashMap<WorldObject, Double> previousPositions;
 	
 	@Override
-	public Vector2[][] generateVelocityMap(Double refPos, int visibility,WorldObject[] objectArray) {
-		// TODO Auto-generated method stub
+	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject[] objectArray) {
+		velocityMap = new Vector2[visibility][visibility];
+		Vector2 refVelocity = new Vector2(0,0);
+		
+		WorldObject[] objects = (WorldObject[]) previousPositions.keySet().toArray();
+		for(WorldObject object: objects){
+			Double pos = previousPositions.get(object);
+			if(pos == refPos){
+				refVelocity = calculateAbsVelocity(delta, object, pos);
+			}
+		}		
+
+		for(WorldObject object: objectArray){
+			Double pos = object.getPosition();
+			float height = object.getLength();
+			float width = object.getWidth();
+			Vector2 absVelocity = calculateAbsVelocity(delta, object, pos);
+			
+			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
+			processVelocity(blocks, refVelocity, absVelocity);
+			
+		}		
 		return velocityMap;
 	}
 	
@@ -30,10 +50,17 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	 *  when the object appear for the first time velocity will be set to 0
 	 */
 	private Vector2 calculateAbsVelocity(float delta, WorldObject object,Double pos){
-		return null;
+		
+		Vector2 absVelocity = new Vector2(0,0);
+		
+		if(previousPositions.containsKey(object)){
+			absVelocity.x = (float) (pos.x - previousPositions.get(object).x)/delta; 
+			absVelocity.y = (float) (pos.y - previousPositions.get(object).y)/delta; 
+		}
+		return absVelocity;
 		
 	}
-	private void processVelocity(ArrayList<Integer> blocks, Vector2 refVelocity, Vector2 velocity){
+	private void processVelocity(ArrayList<Integer[]> blocks, Vector2 refVelocity, Vector2 absVelocity){
 		
 	}
 

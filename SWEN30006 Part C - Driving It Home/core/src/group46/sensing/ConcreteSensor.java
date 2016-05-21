@@ -59,7 +59,7 @@ public class ConcreteSensor implements ISensing {
 			Road[] roadsArray = world.roadsAroundPoint(pos);
 			
 			// Updates the maps
-			velocityMap = velocityStrategy.generateVelocityMap(pos, visibility, objectsArray);
+			velocityMap = velocityStrategy.generateVelocityMap(pos, visibility, delta, objectsArray);
 			spaceMap= spaceStrategy.generateSpaceMap(pos, visibility, objectsArray);
 			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray);
 		} catch(Exception e){

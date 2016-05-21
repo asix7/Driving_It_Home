@@ -7,6 +7,6 @@ import com.unimelb.swen30006.partc.core.objects.WorldObject;
 
 public interface IMapVelocity {
 	
-	public Vector2[][] generateVelocityMap(Double refPos, int visibility, WorldObject [] objectArray);
+	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject [] objectArray);
 
 }

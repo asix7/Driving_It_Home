@@ -13,7 +13,29 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 
 	@Override
 	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject[] objectArray, Road[] roadsArray) {
-		// TODO Auto-generated method stub
+		
+		this.colourMap = new Color[visibility][visibility];
+		
+		for(Road road: roadsArray){
+			Double startPos = road.getStartPos();
+			Double endPos = road.getEndPos();
+			float width = road.getWidth();
+			// Assuming that we don't have a getter from road color, and the color is the same DARK_GRAY
+			Color colour = Color.DARK_GRAY;
+			ArrayList<Integer[]> blocks = getRoadBlocks(refPos, visibility, startPos, endPos, width);
+			processColour(blocks, colour);			
+		}
+		
+		for(WorldObject object: objectArray){
+			Double pos = object.getPosition();
+			float height = object.getLength();
+			float width = object.getWidth();
+			// Assuming that we don't have a getter from road color, and the color is the same DARK_GRAY
+			Color colour = Color.DARK_GRAY;
+			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
+			processColour(blocks, colour);			
+		}
+		
 		return colourMap;
 	}
 	
@@ -29,7 +51,7 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	 * */
 	private ArrayList<Integer[]> getRoadBlocks(Double refPos, int visibility, Double startPos, Double endPos, float width){
 		float height = (float) Double.distance(endPos.x, endPos.y, startPos.x, startPos.y);
-		Double center = null; 
+		Double center = new Double(); 
 		center.x = (startPos.x + endPos.x)/2.0;
 		center.y = (startPos.y + endPos.y)/2.0;
 		
@@ -40,8 +62,15 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 		}		
 	}
 	
-	private void processColour(ArrayList<Integer> blocks, Color colour){
-		
+	private void processColour(ArrayList<Integer[]> blocks, Color colour){
+		for (Integer[] block: blocks){
+			if(colourMap[block[0]][block[1]] == null){
+				colourMap[block[0]][block[1]] = colour;
+			} else {
+				colourMap[block[0]][block[1]] = colourMap[block[0]][block[1]].add(colour);
+			}
+			  		
+		}
 	}
 	
 
