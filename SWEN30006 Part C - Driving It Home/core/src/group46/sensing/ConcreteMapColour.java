@@ -10,6 +10,7 @@ import com.unimelb.swen30006.partc.roads.Road;
 class ConcreteMapColour extends MapGenerator implements IMapColour  {
 
 	private Color[][] colourMap;
+	private final float THRESHOLD = 0.9f;
 
 	@Override
 	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject[] objectArray, Road[] roadsArray) {
@@ -65,9 +66,17 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	private void processColour(ArrayList<Integer[]> blocks, Color colour){
 		for (Integer[] block: blocks){
 			if(colourMap[block[0]][block[1]] == null){
-				colourMap[block[0]][block[1]] = colour;
+				colourMap[block[0]][block[1]] = new Color(block[2] * colour.r,block[2] * colour.g, block[2] * colour.b, 1.0f)  ;
 			} else {
-				colourMap[block[0]][block[1]] = colourMap[block[0]][block[1]].add(colour);
+				float area = block[2]/100.0f;
+				if(area < THRESHOLD){
+					colourMap[block[0]][block[1]] = new Color(colourMap[block[0]][block[1]].r + area * colour.r,
+							  colourMap[block[0]][block[1]].g + area * colour.g, 
+							  colourMap[block[0]][block[1]].b + area * colour.b, 1.0f);
+				} else {
+					
+				}
+
 			}
 			  		
 		}

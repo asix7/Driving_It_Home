@@ -21,14 +21,21 @@ class MapGenerator {
 		float abs_y = (float) (visibility/2.0 + (pos.y - refPos.y));
 		
 		int top = Math.max(0, (int) Math.floor(abs_y - height/2.0));
-		int bot = Math.min(visibility - 1, (int) Math.floor(abs_y - height/2.0));
+		int bot = Math.min(visibility - 1, (int) Math.ceil(abs_y + height/2.0));
 		int left = Math.max(0, (int) Math.floor(abs_x - width/2.0));
-		int right = Math.min(visibility - 1, (int) Math.floor(abs_x - width/2.0));
+		int right = Math.min(visibility - 1, (int) Math.ceil(abs_x + width/2.0));
 		
 		// Assuming the object is shaped as a rectangle
 		for(int i = top; i < bot; i++){
 			for(int j = left; j < right; j++){
-				Integer[] block = {i,j};
+				//
+				float block_top = (float) Math.max(i,abs_y - height/2.0);
+				float block_bot = (float) Math.min(i + 1,abs_y + height/2.0);
+				float block_left = (float) Math.max(j,abs_x - width/2.0);
+				float block_right = (float) Math.min(j + 1,abs_x + width/2.0);
+				// Calculate the percentage area of the object compare to the block
+				int area = Math.round((block_bot - block_top)*(block_right - block_left)*100);
+				Integer[] block = {i,j,area};
 				indexes.add(block);
 			}
 		}
