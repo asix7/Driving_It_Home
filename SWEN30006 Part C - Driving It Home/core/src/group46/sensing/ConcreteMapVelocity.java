@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.unimelb.swen30006.partc.core.objects.Car;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
 
 class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
@@ -14,6 +15,8 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	private Vector2[][] velocityMap;
 	
 	private float[][] max_area;
+	
+	private Double previous_refPos;
 	
 	// Previous positions of the visible world objects
 	private HashMap<WorldObject, Double> previousPositions;
@@ -28,11 +31,19 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 		velocityMap = new Vector2[visibility][visibility];
 		max_area = new float[visibility][visibility];
 		
+		if(previous_refPos == null){
+			previous_refPos = new Double(refPos.x, refPos.y);
+		}
+		Vector2 refVelocity = new Vector2((float)((refPos.x -previous_refPos.x)/delta), 
+										 ((float)(refPos.y - previous_refPos.y)/delta));
+		
+		previous_refPos = new Double(refPos.x, refPos.y);
+		
 		// Inititalize velocity map
 		for (int i = 0; i <= visibility - 1; i++)
 			for (int j = 0; j <= visibility - 1; j++)
 				velocityMap[i][j] = new Vector2(0,0);
-		Vector2 refVelocity = new Vector2(0,0);
+		
 		
 		WorldObject[] objects =  previousPositions.keySet().toArray(new WorldObject[0]);
 		ArrayList<WorldObject> objectArrayList = new ArrayList<WorldObject>(Arrays.asList(objectArray));		
@@ -41,21 +52,6 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 			if(!objectArrayList.contains(object)){
 				previousPositions.remove(object);
 			}
-		}
-		
-		for(WorldObject object: objectArray){
-			Double pos;
-			if (!previousPositions.containsKey(object))
-				pos = refPos;
-			else
-				pos = previousPositions.get(object);
-			System.out.println(pos.x + " " + pos.y);
-			System.out.println(refPos.x + " " + refPos.y);
-			if(pos == refPos){
-				refVelocity = calculateAbsVelocity(delta, object, pos);
-				System.out.println(refVelocity);
-			}
-		System.out.println("--------------------");
 		}		
 
 		for(WorldObject object: objectArray){
@@ -67,7 +63,6 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 			processVelocity(blocks, refVelocity, absVelocity);			
 		}	
 		
-		System.out.println("=========================");
 		return velocityMap;
 	}
 	
@@ -96,7 +91,6 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	private void processVelocity(ArrayList<Integer[]> blocks, Vector2 refVelocity, Vector2 absVelocity){
 		for (Integer[] block: blocks){
 			float area = block[2]/100.0f;
-
 			if(area > max_area[block[0]][block[1]]){
 					velocityMap[block[0]][block[1]] =  new Vector2( absVelocity.x - refVelocity.x,
 																	absVelocity.y - refVelocity.y);

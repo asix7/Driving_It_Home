@@ -8,6 +8,6 @@ import com.unimelb.swen30006.partc.roads.Road;
 
 public interface IMapColour {
 	
-	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject [ ] objectArray, Road[] roadsArray);
+	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject [ ] objectArray, Road[] roadsArray, Color environmentColour);
 	
 }

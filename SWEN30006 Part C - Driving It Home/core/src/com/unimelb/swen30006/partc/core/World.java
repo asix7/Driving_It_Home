@@ -80,7 +80,7 @@ public class World implements ISteppable {
 		// Controllers and cars
 		this.controllers = new Controller[2];
 		this.cars = new Car[1];
-		this.cars[0] = new Car(new Point2D.Double(80,140), 6, 10, Color.CORAL, 25f, 50f, 6f );
+		this.cars[0] = new Car(new Point2D.Double(30,140), 6, 10, Color.CORAL, 25f, 50f, 6f );
 		
 		// Sensor for AIController
 		ISensing sensor = new ConcreteSensor(this);

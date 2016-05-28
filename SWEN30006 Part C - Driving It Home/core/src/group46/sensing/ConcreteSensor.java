@@ -57,24 +57,18 @@ public class ConcreteSensor implements ISensing {
 			// Gets the object from world
 			WorldObject[] objectsArray = world.objectsAtPoint(pos);	
 			Road[] roadsArray = world.roadsAroundPoint(pos);
+			Color environmentColour = world.getEnvironmentColour();
 			// Updates the maps
 			velocityMap = velocityStrategy.generateVelocityMap(pos, visibility, delta, objectsArray);
 			spaceMap= spaceStrategy.generateSpaceMap(pos, visibility, objectsArray);
-			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray);
+			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray, environmentColour);
 		
 		return true;
 	}
 
 	@Override
 	public Vector2[][] getVelocityMap() {
-		int N = velocityMap.length;
-		//for (int i = 0; i <= N - 1; i++){
-		//	for (int j = 0; j <= N - 1; j++)
-			
-		//		System.out.print("(" + velocityMap[i][j].x + "," + velocityMap[i][j].y + ") ");
-			
-		//	System.out.println();
-		//}
+		
 		return velocityMap;
 	}
 
@@ -85,6 +79,20 @@ public class ConcreteSensor implements ISensing {
 
 	@Override
 	public Color[][] getColourMap() {
+		
+		int N = colourMap.length;
+		for (int i = 0; i <= N - 1; i++){
+			for (int j = 0; j <= N - 1; j++)
+			{
+				if (colourMap[i][j] == null )
+					System.out.print(Color.BLACK + " ");
+				else
+					System.out.print(colourMap[i][j]+ " ");
+			}
+			
+			System.out.println();
+		}
+		System.out.println("------------------------------------");
 		return colourMap;
 	}
 
