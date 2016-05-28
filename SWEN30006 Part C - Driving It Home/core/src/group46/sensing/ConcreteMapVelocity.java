@@ -18,14 +18,23 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	// Previous positions of the visible world objects
 	private HashMap<WorldObject, Double> previousPositions;
 	
+	public ConcreteMapVelocity()
+	{
+		previousPositions = new HashMap<WorldObject, Double>();
+	}
+	
 	@Override
 	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject[] objectArray) {
 		velocityMap = new Vector2[visibility][visibility];
 		max_area = new float[visibility][visibility];
+		
+		// Inititalize velocity map
+		for (int i = 0; i <= visibility - 1; i++)
+			for (int j = 0; j <= visibility - 1; j++)
+				velocityMap[i][j] = new Vector2(0,0);
 		Vector2 refVelocity = new Vector2(0,0);
 		
-		
-		WorldObject[] objects = (WorldObject[]) previousPositions.keySet().toArray();
+		WorldObject[] objects =  previousPositions.keySet().toArray(new WorldObject[0]);
 		ArrayList<WorldObject> objectArrayList = new ArrayList<WorldObject>(Arrays.asList(objectArray));		
 		
 		for(WorldObject object: objects){
@@ -34,11 +43,19 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 			}
 		}
 		
-		for(WorldObject object: objects){
-			Double pos = previousPositions.get(object);
+		for(WorldObject object: objectArray){
+			Double pos;
+			if (!previousPositions.containsKey(object))
+				pos = refPos;
+			else
+				pos = previousPositions.get(object);
+			System.out.println(pos.x + " " + pos.y);
+			System.out.println(refPos.x + " " + refPos.y);
 			if(pos == refPos){
 				refVelocity = calculateAbsVelocity(delta, object, pos);
+				System.out.println(refVelocity);
 			}
+		System.out.println("--------------------");
 		}		
 
 		for(WorldObject object: objectArray){
@@ -46,12 +63,11 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 			float height = object.getLength();
 			float width = object.getWidth();
 			Vector2 absVelocity = calculateAbsVelocity(delta, object, pos);
-			
 			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
 			processVelocity(blocks, refVelocity, absVelocity);			
 		}	
 		
-		
+		System.out.println("=========================");
 		return velocityMap;
 	}
 	
@@ -80,9 +96,10 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	private void processVelocity(ArrayList<Integer[]> blocks, Vector2 refVelocity, Vector2 absVelocity){
 		for (Integer[] block: blocks){
 			float area = block[2]/100.0f;
+
 			if(area > max_area[block[0]][block[1]]){
-					velocityMap[block[0]][block[1]].x = absVelocity.x - refVelocity.x;
-					velocityMap[block[0]][block[1]].y = absVelocity.y - refVelocity.y;
+					velocityMap[block[0]][block[1]] =  new Vector2( absVelocity.x - refVelocity.x,
+																	absVelocity.y - refVelocity.y);
 					max_area[block[0]][block[1]] = area;			
 			}			  		
 		}

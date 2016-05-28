@@ -78,7 +78,7 @@ public class World implements ISteppable {
 		buildQuadTree();
 
 		// Controllers and cars
-		this.controllers = new Controller[1];
+		this.controllers = new Controller[2];
 		this.cars = new Car[1];
 		this.cars[0] = new Car(new Point2D.Double(80,140), 6, 10, Color.CORAL, 25f, 50f, 6f );
 		
@@ -86,8 +86,7 @@ public class World implements ISteppable {
 		ISensing sensor = new ConcreteSensor(this);
 		this.controllers[0] = new AIController(cars[0], sensor, null, null);
 		
-		this.controllers[0] = new KeyboardController(cars[0]);
-
+		this.controllers[1] = new KeyboardController(cars[0]);
 		// Remaning variables
 		this.worldTime = MIDDAY;
 		this.collisions = new ArrayList<Rectangle2D.Double>();

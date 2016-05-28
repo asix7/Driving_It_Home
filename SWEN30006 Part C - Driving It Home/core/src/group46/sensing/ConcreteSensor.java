@@ -53,23 +53,28 @@ public class ConcreteSensor implements ISensing {
 	
 	@Override
 	public boolean update(Double pos, float delta, int visibility) {		
-		try{
+		
 			// Gets the object from world
 			WorldObject[] objectsArray = world.objectsAtPoint(pos);	
 			Road[] roadsArray = world.roadsAroundPoint(pos);
-			
 			// Updates the maps
 			velocityMap = velocityStrategy.generateVelocityMap(pos, visibility, delta, objectsArray);
 			spaceMap= spaceStrategy.generateSpaceMap(pos, visibility, objectsArray);
 			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray);
-		} catch(Exception e){
-			return false;
-		}
+		
 		return true;
 	}
 
 	@Override
 	public Vector2[][] getVelocityMap() {
+		int N = velocityMap.length;
+		//for (int i = 0; i <= N - 1; i++){
+		//	for (int j = 0; j <= N - 1; j++)
+			
+		//		System.out.print("(" + velocityMap[i][j].x + "," + velocityMap[i][j].y + ") ");
+			
+		//	System.out.println();
+		//}
 		return velocityMap;
 	}
 

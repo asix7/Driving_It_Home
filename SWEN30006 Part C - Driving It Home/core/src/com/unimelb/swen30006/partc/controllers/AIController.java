@@ -20,6 +20,9 @@ public class AIController extends Controller {
 	
 	public AIController(Car car, ISensing sensor, IPlanning planner, IPerception classifier) {
 		super(car);
+		this.sensor = sensor;
+		this.planner = planner;
+		this.classifier = classifier;
 		// Modify this as you like to instantiate your interface
 	}
 
@@ -32,10 +35,10 @@ public class AIController extends Controller {
 		Color[][] colMap = sensor.getColourMap();
 		
 		// Then updating classifier
-		PerceptionResponse[] responses = classifier.analyseSurroundings(spaceMap, colMap, velMap);
+		//PerceptionResponse[] responses = classifier.analyseSurroundings(spaceMap, colMap, velMap);
 		
 		// Finally update planner
-		planner.update(responses, delta);		
+		//planner.update(responses, delta);		
 	}
 
 }
