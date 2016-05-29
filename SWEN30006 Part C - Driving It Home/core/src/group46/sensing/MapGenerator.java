@@ -3,6 +3,11 @@ package group46.sensing;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
+/**
+ * A super class that contains the shared methods used by the Maps Generators 
+ * @author Group 46
+ *
+ */
 class MapGenerator {
 	
 	/**
@@ -16,32 +21,34 @@ class MapGenerator {
 	 * @return the indexes of an array of the blocks that the object belongs to
 	 * */
 	protected ArrayList<Integer[]> getObjectBlocks(Double refPos, int visibility, Double pos, float width, float height){
+		
 		ArrayList<Integer[]> indexes = new ArrayList<Integer[]>();
+		// Translates World position to map position. 
 		float abs_x = (float) (visibility/2.0 + (pos.x - refPos.x));
 		float abs_y = (float) (visibility/2.0 + (pos.y - refPos.y));
 		
+		// Get the range of an object in the map assuming the object is shaped as a rectangle
 		int top = Math.max(0, (int) Math.floor(abs_y - height/2.0));
 		int bot = Math.min(visibility - 1, (int) Math.ceil(abs_y + height/2.0));
 		int left = Math.max(0, (int) Math.floor(abs_x - width/2.0));
 		int right = Math.min(visibility - 1, (int) Math.ceil(abs_x + width/2.0));
 		
-		// Assuming the object is shaped as a rectangle
+		// Process each block between the range
 		for(int i = top; i <= bot; i++){
 			for(int j = left; j <= right; j++){
-				//
+				
+				// Get the limits of the object in a block
 				float block_top = (float) Math.max(i,abs_y - height/2.0);
 				float block_bot = (float) Math.min(i + 1,abs_y + height/2.0);
 				float block_left = (float) Math.max(j,abs_x - width/2.0);
 				float block_right = (float) Math.min(j + 1,abs_x + width/2.0);
-				//System.out.println(block_top + " "+  block_bot + " " + block_left + " " + block_right);
+				
 				// Calculate the percentage area of the object compare to the block
 				int area = Math.round((block_bot - block_top)*(block_right - block_left)*100);
-				//System.out.println(area);
 				Integer[] block = {visibility -1 - i,j,area};
 				indexes.add(block);
 			}
-		}
-		
+		}		
 		return indexes;	 
 	}
 }

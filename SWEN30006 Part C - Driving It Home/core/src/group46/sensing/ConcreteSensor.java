@@ -1,14 +1,24 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDeltaException;
+import group46.sensing.exceptions.ZeroVisibilityException;
+
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.unimelb.swen30006.partc.ai.interfaces.ISensing;
 import com.unimelb.swen30006.partc.core.World;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
+import com.unimelb.swen30006.partc.roads.Intersection;
 import com.unimelb.swen30006.partc.roads.Road;
 
+/**
+ *  The concrete implementation of ISensing Interface to generate Space, Colour and Velocity Maps 
+ * @author Group 46
+ */
 public class ConcreteSensor implements ISensing {
 
 	// Reference to the world object
@@ -53,22 +63,25 @@ public class ConcreteSensor implements ISensing {
 	
 	@Override
 	public boolean update(Double pos, float delta, int visibility) {		
-		
+		try{
 			// Gets the object from world
 			WorldObject[] objectsArray = world.objectsAtPoint(pos);	
 			Road[] roadsArray = world.roadsAroundPoint(pos);
 			Color environmentColour = world.getEnvironmentColour();
+			Intersection[] intertersectionsArray = world.getIntersections();
 			// Updates the maps
 			velocityMap = velocityStrategy.generateVelocityMap(pos, visibility, delta, objectsArray);
 			spaceMap= spaceStrategy.generateSpaceMap(pos, visibility, objectsArray);
-			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray, environmentColour);
-		
+			colourMap = colourStrategy.generateColourMap(pos, visibility, objectsArray, roadsArray, intertersectionsArray,environmentColour);
+		}
+		catch(Exception e) {
+			return false;			
+		}
 		return true;
 	}
 
 	@Override
 	public Vector2[][] getVelocityMap() {
-		
 		return velocityMap;
 	}
 
@@ -79,20 +92,6 @@ public class ConcreteSensor implements ISensing {
 
 	@Override
 	public Color[][] getColourMap() {
-		
-		int N = colourMap.length;
-		for (int i = 0; i <= N - 1; i++){
-			for (int j = 0; j <= N - 1; j++)
-			{
-				if (colourMap[i][j] == null )
-					System.out.print(Color.BLACK + " ");
-				else
-					System.out.print(colourMap[i][j]+ " ");
-			}
-			
-			System.out.println();
-		}
-		System.out.println("------------------------------------");
 		return colourMap;
 	}
 
