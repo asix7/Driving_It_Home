@@ -75,14 +75,14 @@ public class ConcreteSensor implements ISensing {
 		
 		for(int i=0; i<visibility; i++){
 			for(int j=0; j<visibility; j++){
-				if(spaceMap[i][j]){
-//					System.out.printf("%s ", colourMap[i][j]);
-					System.out.printf("%d ", 1);
-				}
-				else{
-					System.out.printf("%d ", 0);
-				}
-				
+//				if(spaceMap[i][j]){
+					System.out.printf("%s ", colourMap[i][j]);
+//					System.out.printf("%d ", 1);
+//				}
+//				else{
+//					System.out.printf("%d ", 0);
+//				}
+//				
 			}
 			System.out.printf("\n");
 		}

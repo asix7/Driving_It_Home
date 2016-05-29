@@ -28,11 +28,9 @@ class ConcreteMapSpace extends MapGenerator implements IMapSpace {
 		
 		/* Take each world object, collect its data and process the velocity of its blocks */
 		for(WorldObject object: objectArray){
-			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
-//			Double pos = object.getPosition();
-//			float height = object.getLength();
-//			float width = object.getWidth();
+			//Use the wrapper to access the WorldObject data values
 			
+			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
 			Double pos = worldObjectWrapper.getPosition();
 			float height = worldObjectWrapper.getLength();
 			float width = worldObjectWrapper.getWidth();
