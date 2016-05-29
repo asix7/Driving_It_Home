@@ -1,5 +1,8 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDimensionException;
+import group46.sensing.exceptions.ZeroVisibilityException;
+
 import java.awt.geom.Point2D.Double;
 
 import com.badlogic.gdx.graphics.Color;
@@ -18,10 +21,11 @@ public interface IMapColour {
 	 * @param visibility the maximum visibility within the world, at the current point in time
 	 * @param objectArray World Objects in the visible range
 	 * @param roadsArray Roads in the visible range
+	 * @param intersectionsArray Intersections in World
 	 * @param environmentColour default colour of the environment 
 	 * @return the calculated colour map
 	 */
 	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject[] objectArray, Road[] roadsArray, 
-										Intersection[] intertersectionsArray, Color environmentColour);
+										Intersection[] intertersectionsArray, Color environmentColour) throws ZeroVisibilityException, ZeroDimensionException;
 	
 }

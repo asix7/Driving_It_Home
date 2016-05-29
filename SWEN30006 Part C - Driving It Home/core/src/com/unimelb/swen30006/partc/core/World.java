@@ -25,7 +25,7 @@ import com.varunpant.quadtree.QuadTree;
 public class World implements ISteppable {
 
 	// The visibility of objects within the world
-	public static final int VISIBILITY_RADIUS = 0;
+	public static final int VISIBILITY_RADIUS = 100;
 	// The maximum world width
 	public static final float MAX_WIDTH = 800;
 	// The maximum world height

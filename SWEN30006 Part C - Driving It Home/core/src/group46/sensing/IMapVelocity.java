@@ -1,5 +1,9 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDeltaException;
+import group46.sensing.exceptions.ZeroDimensionException;
+import group46.sensing.exceptions.ZeroVisibilityException;
+
 import java.awt.geom.Point2D.Double;
 
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +27,7 @@ public interface IMapVelocity {
 	 * @param objectArray World Objects in the visible range
 	 * @return the calculated Velocity Map
 	 */
-	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject [] objectArray);
+	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject [] objectArray) 
+			throws ZeroDeltaException,ZeroVisibilityException,ZeroDimensionException ;
 
 }

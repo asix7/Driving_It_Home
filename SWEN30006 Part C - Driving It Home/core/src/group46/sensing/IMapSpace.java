@@ -1,5 +1,6 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDimensionException;
 import group46.sensing.exceptions.ZeroVisibilityException;
 
 import java.awt.geom.Point2D.Double;
@@ -18,6 +19,6 @@ public interface IMapSpace {
 	 * @param objectArray World Objects in the visible range
 	 * @return the calculated space map
 	 */
-	public boolean[][] generateSpaceMap(Double refPos, int visibility, WorldObject [] objectArray) throws ZeroVisibilityException;
+	public boolean[][] generateSpaceMap(Double refPos, int visibility, WorldObject [] objectArray) throws ZeroVisibilityException,ZeroDimensionException;
 
 }

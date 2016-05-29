@@ -1,5 +1,9 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDeltaException;
+import group46.sensing.exceptions.ZeroDimensionException;
+import group46.sensing.exceptions.ZeroVisibilityException;
+
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +32,17 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	}
 	
 	@Override
-	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject[] objectArray) {
+	public Vector2[][] generateVelocityMap(Double refPos, int visibility, float delta, WorldObject[] objectArray) 
+		   throws ZeroDeltaException, ZeroVisibilityException, ZeroDimensionException {
 		
+		// Look for exceptions
+		if(delta <= 0){
+			throw new ZeroDeltaException();
+		}
+		
+		if(visibility <= 0){
+			throw new ZeroVisibilityException();
+		}
 		
 		// Create and Initialize velocity map
 		velocityMap = new Vector2[visibility][visibility];
@@ -63,6 +76,10 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 			Double pos = object.getPosition();
 			float height = object.getLength();
 			float width = object.getWidth();
+			
+			if(height <= 0 || width <= 0){
+				throw new ZeroDimensionException();
+			}
 			Vector2 absVelocity = calculateAbsVelocity(delta, object, pos);
 			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
 			processVelocity(blocks, refVelocity, absVelocity);			

@@ -1,5 +1,8 @@
 package group46.sensing;
 
+import group46.sensing.exceptions.ZeroDimensionException;
+import group46.sensing.exceptions.ZeroVisibilityException;
+
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
@@ -14,7 +17,12 @@ class ConcreteMapSpace extends MapGenerator implements IMapSpace {
 	private boolean[][] spaceMap;
 	
 	@Override
-	public boolean[][] generateSpaceMap(Double refPos, int visibility, WorldObject[] objectArray) {
+	public boolean[][] generateSpaceMap(Double refPos, int visibility, WorldObject[] objectArray) throws ZeroVisibilityException, ZeroDimensionException {
+		
+		if(visibility <= 0){
+			throw new ZeroVisibilityException();
+		}
+		
 		this.spaceMap = new boolean[visibility][visibility];
 		
 		/* Take each world object, collect its data and process the velocity of its blocks */
@@ -22,6 +30,11 @@ class ConcreteMapSpace extends MapGenerator implements IMapSpace {
 			Double pos = object.getPosition();
 			float height = object.getLength();
 			float width = object.getWidth();
+			 
+			if(height <= 0 || width <= 0){
+				throw new ZeroDimensionException();
+			}
+			
 			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
 			processSpace(blocks);
 			

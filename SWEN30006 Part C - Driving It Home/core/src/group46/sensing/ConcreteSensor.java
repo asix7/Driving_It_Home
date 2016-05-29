@@ -1,11 +1,6 @@
 package group46.sensing;
 
-import group46.sensing.exceptions.ZeroDeltaException;
-import group46.sensing.exceptions.ZeroVisibilityException;
-
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Double;
-import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
