@@ -2,6 +2,7 @@ package group46.sensing;
 
 import group46.sensing.exceptions.ZeroDimensionException;
 import group46.sensing.exceptions.ZeroVisibilityException;
+import group46.sensing.wrappers.WorldObjectWrapper;
 
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
@@ -27,9 +28,14 @@ class ConcreteMapSpace extends MapGenerator implements IMapSpace {
 		
 		/* Take each world object, collect its data and process the velocity of its blocks */
 		for(WorldObject object: objectArray){
-			Double pos = object.getPosition();
-			float height = object.getLength();
-			float width = object.getWidth();
+			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
+//			Double pos = object.getPosition();
+//			float height = object.getLength();
+//			float width = object.getWidth();
+			
+			Double pos = worldObjectWrapper.getPosition();
+			float height = worldObjectWrapper.getLength();
+			float width = worldObjectWrapper.getWidth();
 			 
 			if(height <= 0 || width <= 0){
 				throw new ZeroDimensionException();
