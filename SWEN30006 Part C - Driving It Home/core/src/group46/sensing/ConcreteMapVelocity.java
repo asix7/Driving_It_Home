@@ -18,10 +18,12 @@ import com.unimelb.swen30006.partc.core.objects.WorldObject;
 class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 	/** Stored Velocity Map */
 	private Vector2[][] velocityMap;
+	
+	// Not stated on design 
 	/** Max area stored of each block of the map at any point */
-	private float[][] max_area;
+	private float[][] max_area; // Needed to assign the value of a block to the largest object velocity
 	/** Reference position of the previous update */
-	private Double previous_refPos;
+	private Double previous_refPos; // We miss that the car was not part of the World Objects, need to store for next update
 	
 	/** Previous positions of the visible world objects */
 	private HashMap<WorldObject, Double> previousPositions;

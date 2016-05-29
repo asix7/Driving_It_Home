@@ -20,8 +20,11 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	
 	/** The colour map where the colours are going to be stored */
 	private Color[][] colourMap;
+	// New to design, averaging the colour of overlaping objects was oversight,
+	// we based our colour assign in order priority so we don't average road with a world object
+	// over it
 	/** Area percentage to assign the full colour of the object to the block */
-	private final float THRESHOLD = 0.9f;	
+	private final float THRESHOLD = 0.9f; // Used to give priority to overlaping objects over this threshold
 
 	@Override
 	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject[] objectArray, Road[] roadsArray, 
@@ -35,7 +38,7 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 		for (int i = 0; i <= visibility - 1; i++)
 			for (int j = 0; j <= visibility - 1; j++)
 				colourMap[i][j] = environmentColour;
-				
+		
 		processRoads(refPos, visibility, roadsArray);		
 		processIntersections(refPos,visibility,intertersectionsArray);
 		processWorldObjects(refPos, visibility, objectArray);
@@ -107,8 +110,8 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	 * 
 	 * The reason is because at the time of submission May 15, We didn't have access to the additional accessors
 	 * released on the 16 that open the possibility to design for Road Markers and Intersections. The process of the
-	 * colors for each object was divided in submethods 
-	 * 
+	 * colors for each object was divided in  three methods
+	 *  
 	 */
 	
 	
@@ -227,16 +230,16 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 			}
 			
 			// Process the 4 intersections lines translating to center position of the line
-			// Top
+			// Top Line
 			Double line_pos = new Double(pos.x, pos.y - height/2.0f);			
 			ArrayList<Integer[]> blocks_lines = getObjectBlocks(refPos, visibility, line_pos, width, line_width);
-			// Botton
+			// Bottom Line
 			line_pos = new Double(pos.x, pos.y + height/2.0f);
 			blocks_lines.addAll(getObjectBlocks(refPos, visibility, line_pos, width, line_width));
-			// Left
+			// Left Line
 			line_pos = new Double(pos.x - width/2.0f, pos.y);
 			blocks_lines.addAll(getObjectBlocks(refPos, visibility, line_pos, line_width, height));
-			// Right
+			// Right Line
 			line_pos = new Double(pos.x + width/2.0f, pos.y);
 			blocks_lines.addAll(getObjectBlocks(refPos, visibility, line_pos, line_width, height));
 			

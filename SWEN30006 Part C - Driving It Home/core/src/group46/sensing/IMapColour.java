@@ -21,8 +21,9 @@ public interface IMapColour {
 	 * @param visibility the maximum visibility within the world, at the current point in time
 	 * @param objectArray World Objects in the visible range
 	 * @param roadsArray Roads in the visible range
-	 * @param intersectionsArray Intersections in World
-	 * @param environmentColour default colour of the environment 
+	 * New arguments different to design
+	 * @param intersectionsArray Intersections in World, updated code on May 16 to access them
+	 * @param environmentColour default colour of the environment, we dind't think about a value when a block was empty 
 	 * @return the calculated colour map
 	 */
 	public Color[][] generateColourMap(Double refPos, int visibility, WorldObject[] objectArray, Road[] roadsArray, 
