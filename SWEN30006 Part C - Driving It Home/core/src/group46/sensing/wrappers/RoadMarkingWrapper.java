@@ -1,35 +1,39 @@
 package group46.sensing.wrappers;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.lang.reflect.Field;
 
 import com.badlogic.gdx.graphics.Color;
-import com.unimelb.swen30006.partc.core.objects.WorldObject;
-import com.unimelb.swen30006.partc.render_engine.IRenderable;
 import com.unimelb.swen30006.partc.roads.RoadMarking;
 
-public class RoadMarkingWrapper {
-	
-	
-//	// Private constants
-//		private static final Color MARKING_COLOUR = Color.LIGHT_GRAY;
-//		private static final float MARKING_WIDTH = 1f;
-//	public final Point2D.Double position;
-//	private final boolean horizontal;
-//	
-	
+/**
+ * NEW TO DESIGN
+ * Road Marking wrapper class that allows access of object information 
+ * Following Mat advice to improve the access to objects data
+ * The Map generators will rely on this wrappers so if a change in the 
+ * classes is made it is easy to change the way we access data in the future
+ * @author Group 46
+ *
+ */
+public class RoadMarkingWrapper {		
+
 	public final RoadMarking roadMarking;
 	
-	public RoadMarkingWrapper(RoadMarking myRoadMarking){
-		
+	public RoadMarkingWrapper(RoadMarking myRoadMarking){		
         this.roadMarking = myRoadMarking;
     }
 	
+	public Point2D.Double getPosition(){
+		return this.roadMarking.position;
+	}
 	
+	// WARNING this relies on a security break, We couldn't find another way to access this
+	// data. If in the future we get the correct accessors we then can change this code to 
+	// correctly obtain them.
 	public Color getColour(){		
 		Color colour;
 		Field privateColour;
+		// Change access to the field, get the value and change the access back to normal
 		try {
 			privateColour = roadMarking.getClass().getDeclaredField("MARKING_COLOUR");
 			privateColour.setAccessible(true);
@@ -48,9 +52,13 @@ public class RoadMarkingWrapper {
 		return null;			
 	}
 	
+	// WARNING this relies on a security break, We couldn't find another way to access this
+	// data. If in the future we get the correct accessors we then can change this code to 
+	// correctly obtain them.
 	public float getWidth(){
 		Float width;
 		Field privateWidth;
+		// Change access to the field, get the value and change the access back to normal
 		try {
 			privateWidth = roadMarking.getClass().getDeclaredField("MARKING_WIDTH");
 			privateWidth.setAccessible(true);
@@ -69,13 +77,13 @@ public class RoadMarkingWrapper {
 		return 0f;	
 	}
 	
-	public Point2D.Double getPosition(){
-		return this.roadMarking.position;
-	}
-	
+	// WARNING this relies on a security break, We couldn't find another way to access this
+	// data. If in the future we get the correct accessors we then can change this code to 
+	// correctly obtain them.
 	public boolean getHorizontal(){
 		Boolean horizontal;
 		Field privateHorizontal;
+		// Change access to the field, get the value and change the access back to normal
 		try {
 			privateHorizontal = roadMarking.getClass().getDeclaredField("horizontal");
 			privateHorizontal.setAccessible(true);
@@ -92,7 +100,5 @@ public class RoadMarkingWrapper {
 			e.printStackTrace();
 		}		
 		return false;
-	}
-
-	
+	}	
 }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
 /**
  * Concrete Strategy of IMapVelocity
+ * NEW TO DESIGN: We changed the way we access objects data, see Wrapper package for more information 
  * @author Group 46
  */
 class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
@@ -76,11 +77,9 @@ class ConcreteMapVelocity extends MapGenerator implements IMapVelocity {
 		
 		// Take each world object, collect its data and process the relative velocity of its blocks
 		for(WorldObject object: objectArray){
-			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
-//			Double pos = object.getPosition();
-//			float height = object.getLength();
-//			float width = object.getWidth();
 			
+			//Use the wrapper to access the WorldObject data values
+			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
 			Double pos = worldObjectWrapper.getPosition();
 			float height = worldObjectWrapper.getLength();
 			float width = worldObjectWrapper.getWidth();

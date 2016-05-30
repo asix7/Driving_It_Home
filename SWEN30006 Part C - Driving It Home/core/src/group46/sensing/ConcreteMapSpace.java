@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
 /**
  * Concrete Strategy of IMapVelocity
+ * NEW TO DESIGN: We changed the way we access objects data, see Wrapper package for more information 
  * @author Group 46
  */
 class ConcreteMapSpace extends MapGenerator implements IMapSpace {
@@ -28,8 +29,8 @@ class ConcreteMapSpace extends MapGenerator implements IMapSpace {
 		
 		/* Take each world object, collect its data and process the velocity of its blocks */
 		for(WorldObject object: objectArray){
-			//Use the wrapper to access the WorldObject data values
 			
+			//Use the wrapper to access the WorldObject data values
 			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
 			Double pos = worldObjectWrapper.getPosition();
 			float height = worldObjectWrapper.getLength();

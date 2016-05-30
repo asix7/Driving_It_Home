@@ -2,6 +2,10 @@ package group46.sensing;
 
 import group46.sensing.exceptions.ZeroDimensionException;
 import group46.sensing.exceptions.ZeroVisibilityException;
+import group46.sensing.wrappers.IntersectionWrapper;
+import group46.sensing.wrappers.RoadMarkingWrapper;
+import group46.sensing.wrappers.RoadWrapper;
+import group46.sensing.wrappers.WorldObjectWrapper;
 
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import com.unimelb.swen30006.partc.roads.RoadMarking;
 
 /**
  * Concrete Strategy of the IMapColour
+ * NEW TO DESIGN: We changed the way we access objects data, see Wrapper package for more information   
  * @author Group 46 
  */
 class ConcreteMapColour extends MapGenerator implements IMapColour  {
@@ -33,6 +38,7 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 		if(visibility <= 0){
 			throw new ZeroVisibilityException();
 		}
+		
 		// Create and Initialize the velocity map with default colour
 		this.colourMap = new Color[visibility][visibility];
 		for (int i = 0; i <= visibility - 1; i++)
@@ -145,9 +151,12 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 	private void processWorldObjects(Double refPos, int visibility, WorldObject[] objectArray) throws ZeroDimensionException{
 		
 		for(WorldObject object: objectArray){
-			Double pos = object.getPosition();
-			float height = object.getLength();
-			float width = object.getWidth();
+			
+			// Use the wrapper to access the WorldObject data values
+			WorldObjectWrapper worldObjectWrapper = new WorldObjectWrapper(object);
+			Double pos = worldObjectWrapper.getPosition();
+			float height = worldObjectWrapper.getLength();
+			float width = worldObjectWrapper.getWidth();
 			
 			if(width <= 0 || height <= 0){
 				throw new ZeroDimensionException();
@@ -169,11 +178,14 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 			throws ZeroDimensionException{
 		
 		for(Road road: roadsArray){
-			// Assuming that we don't have a getter from road color, and the color is the same DARK_GRAY
-			Color colour = Color.DARK_GRAY;
-			Double startPos = road.getStartPos();
-			Double endPos = road.getEndPos();
-			float width = road.getWidth();	
+			
+			// Use the wrapper to access the Road data values
+			RoadWrapper roadWrapper = new RoadWrapper(road);			
+			Color colour = roadWrapper.getColour();
+			Double startPos = roadWrapper.getStartPos();
+			Double endPos = roadWrapper.getEndPos();
+			float width = roadWrapper.getWidth();
+			
 			if(width <= 0){
 				throw new ZeroDimensionException();
 			}
@@ -190,10 +202,13 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 			// Get the road markers and process them
 			RoadMarking[] markers = road.getMarkers();
 			for(RoadMarking marker: markers){
-				// No access to width of marking so we hard coded the value
-				float markingWidth = 1.0f;
-				Color markerColour = Color.LIGHT_GRAY;				
-				ArrayList<Integer[]> markerBlocks = getMarkerBlocks(refPos, visibility, marker.position,markingWidth, horizontal);
+				// Use the wrapper to access the RoadMarking data values
+				RoadMarkingWrapper roadMarkingWrapper = new RoadMarkingWrapper(marker);				
+				float markingWidth = roadMarkingWrapper.getWidth();
+				Color markerColour = roadMarkingWrapper.getColour();		
+				Double pos = roadMarkingWrapper.getPosition();
+				
+				ArrayList<Integer[]> markerBlocks = getMarkerBlocks(refPos, visibility, pos,markingWidth, horizontal);
 				processColour(markerBlocks, markerColour);	
 			}
 		}
@@ -209,21 +224,22 @@ class ConcreteMapColour extends MapGenerator implements IMapColour  {
 		
 		for(Intersection intersection: intertersectionsArray){
 			
-			float height = intersection.length;
-			float width = intersection.width;
+			// Use the wrapper to access the Intersection data values
+			IntersectionWrapper intersectionWrapper = new IntersectionWrapper(intersection);
+			float height = intersectionWrapper.getLenght();
+			float width = intersectionWrapper.getWidth();
 			if(width <= 0 || height <= 0){
 				throw new ZeroDimensionException();
 			}
-			Double pos = new Double(intersection.pos.x + width/2.0f ,intersection.pos.y + height/2.0f);
+			Double shiftPos = intersectionWrapper.getPosition();
+			Double pos = new Double(shiftPos.x + width/2.0f ,shiftPos.y + height/2.0f);
 						
-			// Assuming that we don't have a getter from intersection color, and the colour is the same DARK_GRAY
-			Color colour = Color.DARK_GRAY;
+			Color colour = intersectionWrapper.getColor();
 			ArrayList<Integer[]> blocks = getObjectBlocks(refPos, visibility, pos, width, height);
 			processColour(blocks, colour);
 			
-			// Assuming that we don't have a getter from intersection line color and width, and the colour is the same LIGHT_GRAY
-			float line_width = 1.0f;
-			colour = Color.LIGHT_GRAY;
+			float line_width = intersectionWrapper.getLineWidth();
+			colour = intersectionWrapper.getLineColor();
 			
 			if(line_width <= 0){
 				throw new ZeroDimensionException();

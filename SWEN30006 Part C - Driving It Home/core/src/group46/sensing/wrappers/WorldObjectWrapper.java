@@ -1,14 +1,18 @@
 package group46.sensing.wrappers;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 import com.badlogic.gdx.graphics.Color;
 import com.unimelb.swen30006.partc.core.objects.WorldObject;
-import com.unimelb.swen30006.partc.render_engine.IRenderable;
 
-public class WorldObjectWrapper {
-	
+/**
+ * NEW TO DESIGN
+ * WorldObjects wrapper class that allows access of object data
+ * Following Mat advice to improve the access to objects data
+ * The Map generators will rely on this wrappers so if a change in the 
+ * classes is made it is easy to change the way we access data in the future
+ * @author Group 46
+ */
+public class WorldObjectWrapper {	
 	
 	public final WorldObject worldObject;
 	
